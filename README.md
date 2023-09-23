@@ -54,4 +54,61 @@ The objective of this portfolio project is to perform web scraping using Python 
 
 ![](ColumnA.png)
 
-- 
+- Next I strip the so it can look like a real column, I name it world_table_titles
+
+        world_table_titles =[title.text.strip() for title in world_titles]
+        print(world_table_titles)
+
+![](ColumnStrip.png)
+
+
+- Next I imported panda libraries. This help with the dataframe, makes it look like a real table column
+
+        import pandas as pd
+        df = pd.DataFrame(columns = world_table_titles)
+        df
+![](PandaColumn.png)
+
+- I want to find the data in each column(rows). I already know the rows are tagged ‘tr’. So I call it Column_data.
+
+        column_data = table.find_all(‘tr')
+- I want each individual row for each column, I call it row_data.
+
+        for row in column_data:
+            row_data = row.find_all('td')
+            individual_row_data = [data.text.strip() for data in row_data]
+            print(individual_row_data)
+
+  ![](IndividualRow.png)
+
+- I did a little cleaning so I can remove the [] at the top
+
+        for row in column_data[1:]:
+            row_data = row.find_all('td')
+            individual_row_data = [data.text.strip() for data in row_data]
+            print(individual_row_data)
+
+![](IndividualRowCleaned.png)
+
+- I now need to make it like a real table, here, I used some panda features too
+
+        for row in column_data[1:]:
+            row_data = row.find_all('td')
+            individual_row_data = [data.text.strip() for data in row_data]
+            
+            lenght = len(df)
+            df.loc[lenght] = individual_row_data
+
+
+![](FinalTable.png)
+
+
+- The last thing I did was to safe the table as an excel file
+
+        df.to_csv(r'/Users/olatayodipe/Desktop/For python/companies.csv', index = False)
+
+  ![](Excel.png)
+
+  ## Summary
+
+  This project involves web scraping with Python to extract a list of the largest companies in the United States by revenue for the year 2023. The aim is to demonstrate proficiency in web scraping techniques, data extraction, and data organization. By successfully scraping and documenting this information, the project contributes to a comprehensive understanding of the economic landscape in the United States for 2023, showcasing the top companies and their respective revenues.
